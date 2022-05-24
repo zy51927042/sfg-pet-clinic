@@ -66,7 +66,7 @@ class OwnerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/ownersList"))
-                .andExpect(model().attribute("selections",hasSize(2)));
+                .andExpect(model().attribute("listOwners",hasSize(2)));
     }
     @Test
     void processFindFormReturnOne() throws Exception {
