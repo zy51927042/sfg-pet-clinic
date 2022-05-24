@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/owners")
 @Controller
@@ -32,26 +33,33 @@ public class OwnerController {
     }
 
     @GetMapping
-    public String processFindForm(Owner owner, BindingResult result,Model model) {
-        if(owner.getLastName() == null) {
-            owner.setLastName("");
+    public String processFindForm(Owner owner, BindingResult result, Model model){
+        // allow parameterless GET request for /owners to return all records
+        if (owner.getLastName() == null) {
+            owner.setLastName(""); // empty string signifies broadest possible search
         }
-        List<Owner> results = ownerService.findAllByLastNameLike(owner.getLastName());
 
-        if(results.isEmpty()) {
-            result.rejectValue("lastName","notFound","not found");
+        // find owners by last name
+        List<Owner> results = ownerService.findAllByLastNameLike("%"+owner.getLastName()+"%");
+
+
+        if (results.isEmpty()) {
+            // no owners found
+            result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
-        }else if(results.size() == 1) {
+        } else if (results.size() == 1) {
+            // 1 owner found
             owner = results.get(0);
             return "redirect:/owners/" + owner.getId();
-        }else {
-            model.addAttribute("selections", results);
+        } else {
+            // multiple owners found
+            model.addAttribute("listOwners", results);
             return "owners/ownersList";
         }
     }
 
     @GetMapping("/{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
+    public ModelAndView showOwner(@PathVariable Long ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(ownerService.findById(ownerId));
         return mav;
