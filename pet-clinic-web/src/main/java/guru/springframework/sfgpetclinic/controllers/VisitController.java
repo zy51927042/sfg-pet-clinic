@@ -49,6 +49,7 @@ public class VisitController {  private final VisitService visitService;
     public Visit loadPetWithVisit(@PathVariable("petId") Long petId, Map<String, Object> model) {
         Pet pet = petService.findById(petId);
         model.put("pet", pet);
+        model.put("owner",pet.getOwner());
         Visit visit = new Visit();
         pet.getVisits().add(visit);
         visit.setPet(pet);
