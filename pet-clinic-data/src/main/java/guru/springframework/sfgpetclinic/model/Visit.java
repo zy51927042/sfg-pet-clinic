@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity{
-    @Column(name = "date")
+    @Column(name = "visit_date")
     private LocalDate date;
     @Column(name = "description")
     private String description;
