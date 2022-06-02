@@ -5,6 +5,7 @@
 	<modules>
 		<module>pet-clinic-web</module>
 		<module>pet-clinic-data</module>
+		<module>jacoco-coverage</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -50,6 +51,19 @@
 				<configuration>
 					<goals>install</goals>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
